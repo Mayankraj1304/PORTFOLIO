@@ -1,0 +1,70 @@
+.loader {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: grid;
+  place-items: center;
+  background: #02040a;
+  pointer-events: none;
+}
+
+.loader-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(#66e3ff18 1px, transparent 1px),
+    linear-gradient(90deg, #66e3ff18 1px, transparent 1px);
+  background-size: 42px 42px;
+  mask-image: radial-gradient(circle, #000, transparent 70%);
+}
+
+.loader-mark {
+  width: 132px;
+  aspect-ratio: 1;
+  border: 1px solid #66e3ff88;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  box-shadow:
+    0 0 80px #66e3ff66,
+    inset 0 0 40px #ff7ad933;
+}
+
+.loader-mark span {
+  font-size: 2rem;
+  font-weight: 800;
+}
+
+.loader p {
+  margin-top: 15rem;
+  color: #b7c8df;
+}
+
+.loader strong {
+  font-size: 4rem;
+  color: #fff;
+  text-shadow: 0 0 30px #66e3ff;
+}
+
+.cursor {
+  position: fixed;
+  width: 24px;
+  height: 24px;
+  border: 1px solid #66e3ff;
+  border-radius: 999px;
+  z-index: 60;
+  pointer-events: none;
+  translate: -50% -50%;
+  mix-blend-mode: screen;
+  box-shadow: 0 0 24px #66e3ff;
+  transition:
+    width 0.2s,
+    height 0.2s,
+    background 0.2s;
+}
+
+.cursor.active {
+  width: 58px;
+  height: 58px;
+  background: #66e3ff24;
+}

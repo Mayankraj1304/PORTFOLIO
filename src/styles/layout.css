@@ -1,0 +1,110 @@
+.hero {
+  display: grid;
+  place-items: center;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 25% 25%, #5d3bff55, transparent 28rem),
+    radial-gradient(circle at 75% 50%, #00e5ff44, transparent 32rem);
+}
+
+.hero-canvas {
+  position: absolute !important;
+  inset: 0;
+}
+
+.nav {
+  position: fixed;
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  padding: 0.45rem;
+  border: 1px solid #ffffff1f;
+  border-radius: 999px;
+  background: #07111dcc;
+  backdrop-filter: blur(18px);
+}
+
+.nav a,
+.nav button,
+.hero-actions a,
+.hero-actions button,
+form button {
+  color: #fff;
+  border: 1px solid #ffffff24;
+  background: #ffffff0d;
+  border-radius: 999px;
+  padding: 0.8rem 1rem;
+  text-decoration: none;
+  display: inline-flex;
+  gap: 0.55rem;
+  align-items: center;
+  transition:
+    transform 0.25s,
+    box-shadow 0.25s,
+    background 0.25s;
+}
+
+.nav svg,
+.hero-actions svg,
+form svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.nav a:hover,
+.nav button:hover,
+.hero-actions a:hover,
+.hero-actions button:hover,
+form button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 36px #66e3ff55;
+  background: #66e3ff1e;
+}
+
+.hero-copy {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  margin-top: 14rem;
+}
+
+.hero-copy p {
+  color: #a9bbd2;
+  font-size: clamp(1rem, 2vw, 1.35rem);
+}
+
+h1 {
+  font-size: clamp(4.4rem, 15vw, 13rem);
+  line-height: 0.78;
+  margin: 1rem 0 2rem;
+  font-weight: 900;
+  text-shadow:
+    0 0 28px #66e3ff88,
+    0 0 90px #ff7ad955;
+}
+
+h1 span {
+  display: inline-block;
+}
+
+.hero-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.hero-actions .primary,
+form button {
+  background: linear-gradient(135deg, #66e3ff, #ff7ad9);
+  color: #02040a;
+  font-weight: 800;
+}

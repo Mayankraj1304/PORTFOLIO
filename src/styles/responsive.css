@@ -1,0 +1,79 @@
+@media (max-width: 860px) {
+  body,
+  button,
+  a {
+    cursor: auto;
+  }
+
+  .cursor {
+    display: none;
+  }
+
+  .section {
+    min-height: auto;
+    padding: 5.5rem 1rem;
+  }
+
+  .nav {
+    width: calc(100% - 1rem);
+    overflow-x: auto;
+    justify-content: flex-start;
+  }
+
+  .nav a,
+  .nav button {
+    padding: 0.65rem 0.8rem;
+    white-space: nowrap;
+  }
+
+  .hero {
+    min-height: 100svh;
+  }
+
+  .hero-copy {
+    margin-top: 10rem;
+  }
+
+  .command-grid,
+  .dashboard,
+  .project-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .orbit-system {
+    height: auto;
+    min-height: 760px;
+  }
+
+  .skill-orb {
+    position: relative;
+    left: auto;
+    top: auto;
+    transform: none;
+    margin: 0.5rem;
+  }
+
+  .orbit-system:before {
+    width: 92%;
+  }
+
+  .milestone {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  .milestone strong {
+    font-size: 3rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
