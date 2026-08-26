@@ -1,0 +1,70 @@
+{
+  "name": "Portfolio Lead Capture & Notification",
+  "nodes": [
+    {
+      "parameters": {"path": "portfolio-lead", "httpMethod": "POST", "responseMode": "responseNode"},
+      "id": "webhook",
+      "name": "Portfolio Lead Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [0, 0]
+    },
+    {
+      "parameters": {"assignments": {"assignments": [
+        {"id": "name", "name": "name", "value": "={{$json.body.name}}", "type": "string"},
+        {"id": "email", "name": "email", "value": "={{$json.body.email}}", "type": "string"},
+        {"id": "project", "name": "project", "value": "={{$json.body.project || ''}}", "type": "string"},
+        {"id": "message", "name": "message", "value": "={{$json.body.message || ''}}", "type": "string"}
+      ]}, "options": {}},
+      "id": "normalize",
+      "name": "Normalize Contact",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [240, 0]
+    },
+    {
+      "parameters": {"conditions": {"string": [
+        {"value1": "={{$json.name}}", "operation": "isNotEmpty"},
+        {"value1": "={{$json.email}}", "operation": "contains", "value2": "@"}
+      ]}},
+      "id": "valid",
+      "name": "Valid Contact?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [480, 0]
+    },
+    {
+      "parameters": {"method": "POST", "url": "https://hooks.slack.com/services/REPLACE/THIS/URL", "sendBody": true, "contentType": "json", "jsonBody": "={{JSON.stringify({text: 'New portfolio inquiry from ' + $json.name + ' (' + $json.email + ') — Project: ' + $json.project + '\\n' + $json.message})}}", "options": {}},
+      "id": "notify",
+      "name": "Notify Me",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [720, -100]
+    },
+    {
+      "parameters": {"respondWith": "json", "responseBody": "={{JSON.stringify({ok: true, message: 'Thanks! Your message was received.'})}}", "options": {}},
+      "id": "success",
+      "name": "Success Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [960, -100]
+    },
+    {
+      "parameters": {"respondWith": "json", "responseBody": "={{JSON.stringify({ok: false, message: 'Please provide a valid name and email.'})}}", "options": {}},
+      "id": "invalid",
+      "name": "Invalid Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [720, 100]
+    }
+  ],
+  "connections": {
+    "Portfolio Lead Webhook": {"main": [[{"node": "Normalize Contact", "type": "main", "index": 0}]]},
+    "Normalize Contact": {"main": [[{"node": "Valid Contact?", "type": "main", "index": 0}]]},
+    "Valid Contact?": {"main": [[{"node": "Notify Me", "type": "main", "index": 0}], [{"node": "Invalid Response", "type": "main", "index": 0}]]},
+    "Notify Me": {"main": [[{"node": "Success Response", "type": "main", "index": 0}]]}
+  },
+  "active": false,
+  "settings": {},
+  "versionId": "portfolio-lead-v1"
+}
