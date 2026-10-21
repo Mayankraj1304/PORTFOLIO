@@ -1,76 +1,49 @@
-import { useState } from "react";
+import { useState } from 'react';
 
-import CustomCursor from "./components/CustomCursor";
-import Loader from "./components/Loader";
-import HeroSection from "./components/HeroSection";
-import AboutSection from "./components/AboutSection";
-import SkillsSection from "./components/SkillsSection";
-import ProjectsSection from "./components/ProjectsSection";
-import JourneySection from "./components/JourneySection";
-import DashboardSection from "./components/DashboardSection";
-import ContactSection from "./components/ContactSection";
-import TerminalDialog from "./components/TerminalDialog";
-
-import { useReducedMotionPreference } from "./hooks/useReducedMotionPreference";
-import { useSmoothScroll } from "./hooks/useSmoothScroll";
-import { useKonamiCode } from "./hooks/useKonamiCode";
-import { skills, projects, milestones } from "./data/heroContent";
-import {
-  heroTitle,
-  navigationItems,
-  aboutSections,
-  dashboardMetrics,
-} from "./data/pageContent";
-
-function App() {
-  const reducedMotion = useReducedMotionPreference();
-  const [activeSkill, setActiveSkill] = useState(0);
-  const [activeProject, setActiveProject] = useState(0);
-  const [terminalOpen, setTerminalOpen] = useState(false);
-  const [soundOn, setSoundOn] = useState(false);
-
-  useSmoothScroll(reducedMotion);
-  useKonamiCode(() => setTerminalOpen(true));
-
-  return (
-    <>
-      <Loader />
-      <CustomCursor />
-      <main>
-        <HeroSection
-          heroTitle={heroTitle}
-          navigationItems={navigationItems}
-          soundOn={soundOn}
-          setSoundOn={setSoundOn}
-          setTerminalOpen={setTerminalOpen}
-        />
-
-        <AboutSection sections={aboutSections} />
-
-        <SkillsSection
-          skills={skills}
-          activeSkill={activeSkill}
-          setActiveSkill={setActiveSkill}
-        />
-
-        <ProjectsSection
-          projects={projects}
-          activeProject={activeProject}
-          setActiveProject={setActiveProject}
-        />
-
-        <JourneySection milestones={milestones} />
-
-        <DashboardSection metrics={dashboardMetrics} />
-
-        <ContactSection />
-      </main>
-
-      {terminalOpen && (
-        <TerminalDialog onClose={() => setTerminalOpen(false)} />
-      )}
-    </>
-  );
+const github = 'https://github.com/Mayankraj1304';
+const linkedin = 'https://www.linkedin.com/in/mayankraj1304';
+const email = 'mayank1312.raj@gmail.com';
+const projects = [
+  { number: '01', title: 'MINISTA', category: 'Full-stack development', description: 'A social space, built end to end. Authentication, image uploads, global and personalized feeds, likes, and follows in one MERN application.', stack: ['React', 'Node.js', 'MongoDB', 'JWT'], repo: 'MINISTA', live: 'https://minista-kappa.vercel.app/', visual: 'social' },
+  { number: '02', title: 'AI-powered CV Checker', category: 'Applied AI · NLP', description: 'Turning a résumé into actionable feedback. Semantic matching and keyword analysis connect skills and experience to the requirements of a job.', stack: ['React', 'FastAPI', 'Python', 'NLP'], repo: 'CV_CHECKER', live: 'https://cv-checker-ecru.vercel.app/', visual: 'resume' },
+];
+const experience = [
+  { date: 'MAY — JUL 2026', company: 'BIT Mesra', role: 'Undergraduate Researcher', text: 'Built a Sentinel-1 SAR flood-mapping pipeline across 14 Kerala districts and a verification workflow for 7,984 multilingual social posts. Co-authored a paper selected for presentation at IEEE DELCON 2026.' },
+  { date: 'DEC 2025 — JAN 2026', company: 'Mecon Ltd.', role: 'Frontend Web Development Intern', text: 'Built a React pathfinding visualizer on a custom hexagonal grid, with interactive comparisons of A*, BFS, DFS, and Dijkstra’s algorithm.' },
+  { date: 'DEC 2024 — AUG 2025', company: 'Ransh Innovations', role: 'Full Stack Web Development Intern', text: 'Integrated tournament data for 10+ sports from 3+ REST API providers. Standardized responses and reused stored data to stay within daily request limits.' },
+];
+const skills = [
+  ['01', 'Interfaces', 'React · JavaScript · TypeScript · Vite · Tailwind CSS · SCSS'],
+  ['02', 'Systems & data', 'Node.js · Express · FastAPI · Flask · REST APIs · WebSockets · MongoDB · MySQL'],
+  ['03', 'Intelligence', 'Python · NLP · RAG · LangChain · ChromaDB · TensorFlow · Scikit-learn'],
+  ['04', 'Foundations & tools', 'Java · C · SQL · DSA · OOP · Git · Docker · Postman · Vercel · Render'],
+];
+function Arrow() { return <span aria-hidden="true">↗</span>; }
+function ExternalLink({ href, children, className = '' }) { return <a className={className} href={href} target="_blank" rel="noopener noreferrer">{children}<Arrow /></a>; }
+function ProjectVisual({ type }) {
+  return <div className={`project-visual ${type}`} aria-hidden="true">
+    {type === 'social' ? <div className="social-window"><div className="mock-bar"><strong>minista.</strong><span>Discover &nbsp; / &nbsp; Following</span><i>m</i></div><div className="social-layout"><div className="mock-profile"><div className="profile-circle">m.</div><b>A little more connection.</b><span>A space for your everyday.</span><div className="mock-lines" /></div><div className="mock-post"><div className="post-art"><span>Small moments.<br /><em>Shared stories.</em></span><div className="art-sun" /></div><div className="post-caption">♡ &nbsp; ◯ &nbsp; ↗ <span>Save a moment.</span></div></div></div></div> : <div className="resume-window"><div className="mock-bar"><strong>CV / CHECKER</strong><span>Clarity for your next step.</span></div><div className="resume-layout"><div className="paper"><span>YOUR NEXT CHAPTER</span><b>Experience.<br />With purpose.</b><div className="mock-lines" /><div className="mock-lines short" /><div className="mock-lines" /></div><div className="analysis-panel"><span>RESUME ANALYSIS</span><h4>Find your fit.</h4><p>Skills & experience</p><div className="analysis-track" /><p>Job alignment</p><div className="analysis-track second" /><div className="analysis-note">A clearer path forward ↗</div></div></div></div>}
+    <span className="visual-caption">INTERFACE CONCEPT</span>
+  </div>;
 }
-
+function App() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [copyStatus, setCopyStatus] = useState('Copy email');
+  async function copyEmail() {
+    try { await navigator.clipboard.writeText(email); setCopyStatus('Email copied'); }
+    catch { setCopyStatus('Copy unavailable — use email link'); }
+  }
+  return <>
+    <a className="skip-link" href="#main">Skip to content</a>
+    <header className="site-header wrap"><a className="wordmark" href="#" aria-label="Mayank Raj home">mayank<span>✳</span></a><button className="menu-toggle" aria-expanded={menuOpen} aria-controls="navigation" onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? 'Close −' : 'Menu +'}</button><nav id="navigation" className={menuOpen ? 'navigation open' : 'navigation'} aria-label="Main navigation">{[['work','Work'],['about','About'],['experience','Experience']].map(([id,label]) => <a key={id} href={`#${id}`} onClick={() => setMenuOpen(false)}>{label}</a>)}<a className="nav-contact" href="#contact" onClick={() => setMenuOpen(false)}>Let’s talk <Arrow /></a></nav></header>
+    <main id="main">
+      <section className="hero wrap" aria-labelledby="hero-title"><div className="hero-meta"><span><i className="status-dot" /> FULL-STACK DEVELOPER & AI EXPLORER</span><span>RANCHI, INDIA</span></div><h1 id="hero-title">Thoughtful code.<br /><em>Meaningful impact.</em></h1><div className="hero-bottom"><div className="hero-intro"><p>I’m Mayank Raj — building useful digital experiences at the intersection of full-stack development and applied AI.</p><div className="hero-actions"><a className="button primary" href="#work">Explore my work <span aria-hidden="true">↓</span></a><a className="text-link" href="/Mayank-Raj-Resume.pdf" download>Download résumé <span aria-hidden="true">↓</span></a></div></div><div className="hero-note"><span className="small-label">A LITTLE ABOUT ME</span><p>Computer Science at BIT Mesra.<br />An engineer’s curiosity.<br />A builder’s mindset.</p><a href="#about" aria-label="More about Mayank" className="round-link"><span aria-hidden="true">↓</span></a></div></div><div className="hero-foot"><span>SELECTED WORK & EXPERIENCE</span><span>SCROLL TO EXPLORE ↓</span></div></section>
+      <section id="work" className="work section wrap" aria-labelledby="work-title"><div className="section-heading"><div><span className="eyebrow">01 / SELECTED WORK</span><h2 id="work-title">Ideas, made real<span className="accent">.</span></h2></div><ExternalLink href={github} className="text-link">All repositories</ExternalLink></div><div className="project-grid">{projects.map(project => <article className="project" key={project.number}><ProjectVisual type={project.visual}/><div className="project-meta"><span>{project.category}</span><span>/{project.number}</span></div><h3>{project.title}</h3><p>{project.description}</p><ul className="tags" aria-label="Technologies">{project.stack.map(tag => <li key={tag}>{tag}</li>)}</ul><div className="project-links"><ExternalLink href={project.live} className="text-link">Live project</ExternalLink><ExternalLink href={`${github}/${project.repo}`} className="text-link muted-link">Source code</ExternalLink></div></article>)}</div><a className="research-strip" href="#experience"><span className="research-symbol" aria-hidden="true">◎</span><div><span className="small-label">BEYOND THE BROWSER</span><h3>Satellite data. Real-world questions.</h3><p>Geospatial AI research into flood mapping and social-media verification.</p></div><span className="research-arrow" aria-hidden="true">↗</span></a></section>
+      <section id="about" className="about-section section" aria-labelledby="about-title"><div className="wrap about-grid"><div><span className="eyebrow">02 / THE PERSON BEHIND THE CODE</span><h2 id="about-title">Curious by nature.<br /><em>Practical by choice.</em></h2><div className="education"><span className="small-label">EDUCATION</span><h3>Birla Institute of Technology, Mesra</h3><p>B.Tech. in Computer Science & Engineering</p><span>2023 — 2027 · CGPA 8.0 / 10</span></div></div><div className="about-copy"><p>I’m a Computer Science undergraduate who enjoys connecting the pieces: a clear interface, a reliable backend, and data that helps solve a real problem.</p><p>My work spans social platforms, NLP-powered résumé analysis, and satellite-based flood mapping. Each project is a chance to understand a problem more deeply and build something useful.</p><div className="about-facts"><div><strong>GATE 2026</strong><span>Qualified</span></div><div><strong>IEEE DELCON 2026</strong><span>Co-authored paper selected for presentation</span></div></div><ExternalLink href={linkedin} className="text-link">More on LinkedIn</ExternalLink></div></div></section>
+      <section id="experience" className="section wrap experience-section" aria-labelledby="experience-title"><div className="section-heading"><div><span className="eyebrow">03 / ALONG THE WAY</span><h2 id="experience-title">Learning by building<span className="accent">.</span></h2></div><span className="section-aside">Research, teams, and real-world problems.</span></div><div className="experience-list">{experience.map(item => <article className="experience-row" key={item.company}><span className="experience-date">{item.date}</span><div><h3>{item.company}</h3><span className="role">{item.role}</span></div><p>{item.text}</p></article>)}</div></section>
+      <section className="section wrap skills-section" aria-labelledby="skills-title"><div className="skills-intro"><span className="eyebrow">04 / THE TOOLKIT</span><h2 id="skills-title">The right tools.<br /><em>A solid foundation.</em></h2><p>From the first component to the API behind it. These are the technologies I work with.</p></div><div className="skill-list">{skills.map(([number, title, text]) => <div className="skill-row" key={number}><span>{number}</span><div><h3>{title}</h3><p>{text}</p></div></div>)}</div></section>
+      <section id="contact" className="contact-section" aria-labelledby="contact-title"><div className="wrap"><div className="contact-top"><span className="eyebrow">05 / WHAT’S NEXT?</span><span>GOOD WORK STARTS WITH A CONVERSATION.</span></div><h2 id="contact-title">Have something<br /><em>in mind?</em><a href={`mailto:${email}`} className="contact-arrow" aria-label="Email Mayank">↗</a></h2><div className="contact-bottom"><div><a className="email-link" href={`mailto:${email}`}>{email}</a><button className="copy-button" onClick={copyEmail} aria-live="polite">{copyStatus}</button></div><div className="social-links"><ExternalLink href={github}>GitHub</ExternalLink><ExternalLink href={linkedin}>LinkedIn</ExternalLink><a href="/Mayank-Raj-Resume.pdf" download>Résumé ↓</a></div></div></div></section>
+    </main><footer className="wrap footer"><span>© {new Date().getFullYear()} Mayank Raj</span><span>Made with intention. Built with React.</span><a href="#">Back to top ↑</a></footer>
+  </>;
+}
 export default App;
